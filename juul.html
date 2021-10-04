@@ -7,7 +7,7 @@
         body {
             text-align: center;
             font-family: "Lato";
-            background-color: blue;
+            background: url("https://explorer.metavent.io/files/13/events/72/6140f8ee7c44f.png");
         }
 
         * {
@@ -38,8 +38,7 @@
             width: 100%;
             overflow-y: scroll;
             height: 80vh;
-            background: #ffffff66;
-            border-radius: 8px;
+            border-radius: 4px;
         }
 
         /* width */
@@ -51,13 +50,13 @@
         /* Track */
         .ipjuul-speaker-slider::-webkit-scrollbar-track {
             background: #00000033;
-            border-radius: 8px;
+            border-radius: 4px;
         }
 
         /* Handle */
         .ipjuul-speaker-slider::-webkit-scrollbar-thumb {
             background: white;
-            border-radius: 8px;
+            border-radius: 4px;
         }
 
         /* Handle on hover */
@@ -157,7 +156,6 @@
 
         .ipjuul-active-day {
             font-weight: 900 !important;
-            color: black !important;
         }
 
         .ipjuul-button {
@@ -180,13 +178,32 @@
 
         .ipjuul-link-behavior {
             cursor: pointer;
-            font-weight: bold;
-            text-decoration: underline;
         }
 
+        
 
         .ipjuul-link-behavior:hover {
-            color: blue;
+            background-color: rgb(0, 73, 196);
+            color:white;
+        }
+        
+        .ipjuul-day-chooser .ipjuul-link-behavior:hover, 
+        .ipjuul-link-behavior.ipjuul-button:hover 
+        {
+            box-shadow: 0px 0px 8px 2px #ffffff66 !important;
+        }
+
+        .ipjuul-link-behavior:hover .ipjuul-speaker-text {
+            box-shadow: 0px 0px 8px 2px #ffffff66;
+            background-color: rgb(0, 73, 196);
+            color:white;
+        }
+        
+
+        
+        .ipjuul-link-behavior:hover img {
+            border-color:  rgb(0, 73, 196) !important;
+            box-shadow: 0px 0px 8px 2px #ffffff66;
         }
 
         .fade-animate {
@@ -488,15 +505,17 @@
             }).join('')
 
             if (sessionHTML.length > 0) {
-                return `<div class="ipjuul-speaker-box ${user.id === active ? 'active' : ''}" data-id="${user.id}" >
+                return `<div class="ipjuul-link-behavior ipjuul-speaker-box ${user.id === active ? 'active' : ''}" data-id="${user.id}" onclick="showSpeaker(this)"   >
                     <div class="ipjuul-main-image-container">
                         <img class="ipjuul-main-image" src="${user.image}" />
                     </div>
-                    <div class="ipjuul-speaker-text">
-                        <h3 class="ipjuul-link-behavior" onclick="showSpeaker(this)" data-id="${user.id}">${user.name}</h3>
+                    <div class="ipjuul-speaker-text" >
+                        <h3 data-id="${user.id}">${user.name}</h3>
                         <p>${user.title}</p>
 
-                        ${sessionHTML}
+                        ${/*sessionHTML*/""}
+
+                        <p>${user.bio.slice(0, 48)}...</p>
                         
                     </div>
                 </div>`
@@ -521,14 +540,14 @@
                     <h5>${speaker.title}</h5>
                     <p>${speaker.bio}</p>
                 </div>
-                <div class="ipjuul-panel">
+                ${/*<div class="ipjuul-panel">
                     <h3>Appearances</h3>
                     ${sessions.map((s, i) => `
                         <div class="ipjuul-link-behavior" onclick="showSession(this)" data-id="${s.id}">
                             <h5>${s.name}: ${s.print_day_time}</h5>
                         </div>    
                         `).join("")}
-                </div>
+                </div>*/""}
             `
         }
 
