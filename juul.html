@@ -1,0 +1,677 @@
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@200;300;400;700;900&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            text-align: center;
+            font-family: "Lato";
+            background: url("https://explorer.metavent.io/files/13/events/72/6140f8ee7c44f.png");
+        }
+
+        * {
+            font-size: 1rem;
+        }
+
+        p {
+            line-height: 130%;
+            font-size: 1rem;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0;
+        }
+
+        h5 {
+            font-size: 1.15rem;
+        }
+
+
+        .ipjuul-speaker-slider {
+            max-width: 100%;
+            width: 100%;
+            overflow-y: scroll;
+            height: 80vh;
+            border-radius: 4px;
+        }
+
+        /* width */
+        .ipjuul-speaker-slider::-webkit-scrollbar {
+            width: 16px;
+            cursor: pointer;
+        }
+
+        /* Track */
+        .ipjuul-speaker-slider::-webkit-scrollbar-track {
+            background: #00000033;
+            border-radius: 4px;
+        }
+
+        /* Handle */
+        .ipjuul-speaker-slider::-webkit-scrollbar-thumb {
+            background: white;
+            border-radius: 4px;
+        }
+
+        /* Handle on hover */
+        .ipjuul-speaker-slider::-webkit-scrollbar-thumb:hover {
+            background: #ccc;
+            cursor: pointer;
+        }
+
+        #ipjuul-speaker-row {
+            display: flex;
+            width: 100%;
+            flex-wrap: wrap;
+            transition: opacity .5s;
+        }
+
+        .ipjuul-speaker-box {
+            width: calc(33% - 2rem);
+            max-width: 250px;
+            box-sizing: border-box;
+            margin: 0 1rem 2rem;
+        }
+
+        .ipjuul-speaker-text {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            box-shadow: 8px 8px 8px 0px #00000033;
+            border-radius: 4px;
+        }
+
+        .ipjuul-speaker-text h3 {
+            margin-top: 0;
+        }
+
+        .ipjuul-speaker-text h5 {
+            margin-bottom: 8px;
+        }
+
+        .ipjuul-speaker-text p {
+            margin-bottom: 0;
+            margin-top: 4px;
+        }
+
+        .ipjuul-link {
+            text-decoration: none;
+            display: inline-block;
+            padding: .5rem 2rem;
+            background: black;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .ipjuul-main-image {
+            width: calc(80% - 12px);
+            height: calc(80% - 12px);
+            border-radius: 100%;
+            border: 6px solid white;
+            box-shadow: 8px 8px 8px 0px #00000033;
+            position: absolute;
+            left: 10%;
+            top: 10%;
+            max-width: 320px;
+            max-height: 320px;
+        }
+
+        .active .ipjuul-main-image {}
+
+        .active .ipjuul-speaker-text {
+            background: white;
+        }
+
+
+
+        .ipjuul-main-image-container {
+            width: 100%;
+            padding-bottom: 100%;
+            position: relative;
+        }
+
+        .ipjuul-main-image-small-container {
+            padding-bottom: 320px;
+            width: 320px;
+            margin: auto;
+            position: relative;
+        }
+
+        .ipjuul-day-chooser>span {
+            display: inline-block;
+            margin: 1rem;
+            font-size: 1.1rem;
+            padding: .5rem 2rem;
+            background-color: white;
+            font-weight: 500;
+            color: #666;
+            border-radius: 4px;
+            box-shadow: 8px 8px 8px 0px #00000033;
+        }
+
+        .ipjuul-active-day {
+            font-weight: 900 !important;
+        }
+
+        .ipjuul-button {
+            font-size: 1.1rem;
+            padding: .5rem 2rem;
+            display: inline-block;
+            margin: 1rem;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 8px 8px 8px 0px #00000033;
+        }
+
+        .ipjuul-panel {
+            background-color: white;
+            margin: 1rem;
+            padding: .5rem;
+            border-radius: 4px;
+            box-shadow: 8px 8px 8px 0px #00000033;
+        }
+
+        .ipjuul-link-behavior {
+            cursor: pointer;
+        }
+
+        
+
+        .ipjuul-link-behavior:hover {
+            color:white;
+        }
+        
+        .ipjuul-day-chooser .ipjuul-link-behavior:hover, 
+        .ipjuul-link-behavior.ipjuul-button:hover 
+        {
+            background-color: rgb(0, 73, 196);
+            box-shadow: 0px 0px 0px 2px #ffffff !important;
+        }
+
+        .ipjuul-link-behavior:hover .ipjuul-speaker-text {
+            box-shadow: 0px 0px 0px 1px #ffffff !important;
+            background-color: rgb(0, 73, 196);
+            color:white;
+        }
+        
+
+        
+        .ipjuul-link-behavior:hover img {
+            border-color:  rgb(0, 73, 196) !important;
+            box-shadow: 0px 0px 0px 2px #ffffff !important;
+        }
+
+        .fade-animate {
+            opacity: 0;
+            left: -100px !important;
+
+            transition: all .5s;
+        }
+
+        #viewer {
+            left: 0;
+            position: relative;
+
+            transition: all .5s;
+        }
+
+        .fadeout {
+            opacity: 0 !important;
+            transition: opacity .5s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="viewer" style="max-width:800px; max-height:600px; margin: auto;">
+    </div>
+
+    <script>
+        const LIST = 'list'
+        const SPEAKER = 'speaker'
+        const SESSION = 'session'
+
+        const VIEWS = [LIST, SPEAKER, SESSION]
+
+        let view = VIEWS[0]
+        let active = 1
+        let active_days = 0
+
+        let speaker = {}
+        let session = {}
+
+
+
+
+        let speakers = [
+            {
+                id: 1,
+                name: "K.C. Crosthwaite",
+                title: "Chairman & Chief Executive Officer",
+                image: "./images/kc.png",
+                bio: "K.C. has over 20 years of experience in product development, management, and stakeholder and regulatory engagement. Most recently, he served as Chief Growth Officer of Altria, where he spent several years focused on alternatives to combustible cigarettes. K.C. graduated from Marquette University and earned his MBA from Providence College.",
+                email: "qwerty1234@gmail.com",
+                phone: "(234) 567-1234"
+            },
+            {
+                id: 2,
+                name: "David Dickey",
+                title: "Chief Operating Officer",
+                image: "./images/dave-dickey.png",
+                bio: "David has over 30 years of executive leadership and operationsexperience across multiple industries, most recently leading large-scale transformations for TPG Capital. He graduated from Worcester Polytechnic Institute with a B.S. in Electrical Engineering and has an M.S. in Management from Purdue.",
+                email: "qwerty1234@gmail.com",
+                phone: "(234) 567-1234"
+            },
+            {
+                id: 3,
+                name: "Joe Murillo",
+                title: "Chief Regulatory Officer",
+                image: "./images/murillo.png",
+                bio: "Throughout the course of his career, Joe developed extensive knowledge of bringing alternatives to combustible cigarettes to market. Prior to joining Juul Labs, he served as Altria’s Senior Vice President of Regulatory Affairs, where heled regulatory strategies and FDA submissions for Altria’s harm reduction product portfolio. Joe began his career as a commercial litigator in New York City. He earned a B.A. from the University of Miami and received a J.D. from Columbia Law School.",
+                email: "qwerty1234@gmail.com",
+                phone: "(234) 567-1234"
+            },
+            {
+                id: 4,
+                name: "Bob Robbins",
+                title: "Chief Growth Officer",
+                image: "./images/bobrobbins.png",
+                bio: "Bob brings experience managing regulated consumer sales, most recently with Constellation Brands. Prior to his career in the commercial sector, he served as an officer and aviator in the U.S. Navy. Bob has a B.S. in Systems Engineering from the US Naval Academy and received an MBA from Stanford University.",
+                email: "qwerty1234@gmail.com",
+                phone: "(234) 567-1234"
+            },
+            {
+                id: 5,
+                name: "Kirk Phelps",
+                title: "Chief Product Officer",
+                image: "./images/kirkphelps.png",
+                bio: "Kirk started his career at Apple, where he worked in product development for the first generation iPhone and a number of other mobile products. After Apple, he held leadership roles in residential solar electricity and manufacturing-grade 3D printing. Kirk attended Stanford University where he studied Computer Science and Product Design",
+                email: "qwerty1234@gmail.com",
+                phone: "(234) 567-1234"
+            },
+            {
+                id: 6,
+                name: "Tyler Mace",
+                title: "Chief Legal Officer",
+                image: "./images/tylermace.png",
+                bio: "Tyler spent 10 years at Kirkland & Ellis, one of the largest legal firms in the U.S., before joining Philip Morris International as Assistant General Counsel for six years. Tyler holds a B.S. from Washington Adventist University and a J.D. from Georgetown University Law Center.",
+                email: "qwerty1234@gmail.com",
+                phone: "(234) 567-1234"
+            },
+            {
+                id: 7,
+                name: "Rudy Lawrence",
+                title: "Senior Vice President, Global Supply Chain & Corporate Services",
+                image: "./images/rudy.png",
+                bio: "Rudy has worked in Supply Chain & Operations for his 20-year career in dynamic, high-volume environments for various companies including IBM, Sanmina-SCI, Foxconn and Microsoft. He specializes in Supply Chain, Inhouse and Contract Manufacturing, Project Management, Capital Equipment and Indirect Sourcing, Component Sourcing, Supply Demand planning and customer fulfillment disciplines. Rudy is a double graduate of Cornell University with a bachelor’s degree in Mechanical Engineering and a master’s degree in Engineering Management.",
+                email: "qwerty1234@gmail.com",
+                phone: "(234) 567-1234"
+            }
+        ]
+
+        let sessions = [
+            {
+                id: 1,
+                name: "How to Give a Speech",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+                day: 1,
+                time: 1100,
+                print_day_time: "Oct. 6th, 11:00am"
+
+            },
+
+            {
+                id: 2,
+                name: "How to Give a Speech 2",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+                day: 2,
+                time: 1100,
+                print_day_time: "Oct. 7th, 11:00am"
+
+            },
+
+            {
+                id: 3,
+                name: "How to Give a Speech 3",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+                day: 1,
+                time: 1300,
+                print_day_time: "Oct. 6th, 1:00pm"
+
+            },
+
+            {
+                id: 4,
+                name: "How to Give a Speech 4",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+                day: 2,
+                time: 1300,
+                print_day_time: "Oct. 7th, 1:00pm"
+
+            },
+
+            {
+                id: 5,
+                name: "How to Give a Speech 5",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+                day: 1,
+                time: 1500,
+                print_day_time: "Oct. 6th, 4:00pm"
+
+            },
+
+            {
+                id: 6,
+                name: "How to Give a Speech 6",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+                day: 2,
+                time: 1500,
+                print_day_time: "Oct. 7th, 4:00pm"
+
+            },
+
+            {
+                id: 7,
+                name: "How to Give a Speech 7",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+                day: 1,
+                time: 1600,
+                print_day_time: "Oct. 6th, 5:00pm"
+
+            },
+
+            {
+                id: 8,
+                name: "How to Give a Speech 8",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+                day: 2,
+                time: 1600,
+                print_day_time: "Oct. 7th, 5:00pm"
+
+            },
+        ]
+
+        let speakerSessions = [
+            {
+                id: 1,
+                speaker_id: 1,
+                session_id: 1,
+                order: 1
+            },
+
+            {
+                id: 2,
+                speaker_id: 2,
+                session_id: 2,
+                order: 2
+            },
+
+            {
+                id: 3,
+                speaker_id: 3,
+                session_id: 3,
+                order: 3
+            },
+
+            {
+                id: 4,
+                speaker_id: 4,
+                session_id: 4,
+                order: 4
+            },
+            {
+                id: 5,
+                speaker_id: 5,
+                session_id: 5,
+                order: 5
+            },
+
+            {
+                id: 6,
+                speaker_id: 6,
+                session_id: 6,
+                order: 6
+            },
+
+            {
+                id: 7,
+                speaker_id: 5,
+                session_id: 7,
+                order: 7
+            },
+
+            {
+                id: 8,
+                speaker_id: 8,
+                session_id: 8,
+                order: 8
+            },
+
+
+
+            {
+                id: 9,
+                speaker_id: 7,
+                session_id: 8,
+                order: 9
+            },
+
+            {
+                id: 10,
+                speaker_id: 6,
+                session_id: 8,
+                order: 10
+            },
+
+        ]
+
+        let viewerElement = document.getElementById('viewer')
+
+        let list_view = (children) => {
+            return `       
+                ${/*<div class="ipjuul-day-chooser">
+                    <span data-days="0" class="ipjuul-link-behavior ${active_days === 0 ? 'ipjuul-active-day' : ""}" onclick="changeDays(this)">All Days</span>
+                    <span data-days="1" class="ipjuul-link-behavior ${active_days === 1 ? 'ipjuul-active-day' : ""}" onclick="changeDays(this)">October 6th</span>
+                    <span data-days="2" class="ipjuul-link-behavior ${active_days === 2 ? 'ipjuul-active-day' : ""}" onclick="changeDays(this)">October 7th</span>
+                </div>*/""}
+                <div class="ipjuul-speaker-slider">
+                    <div id="ipjuul-speaker-row" class="fadeout">
+                        ${children}
+                    </div>
+                </div>`
+        }
+
+        let thumb_template = (user, sessions) => {
+
+
+            let sessionHTML = sessions.map((s) => {
+                if (!active_days || s.day === active_days) {
+                    return `<h5 class="ipjuul-link-behavior" onclick="showSession(this)" data-id="${s.id}">${s.name}</h5>`
+                } else {
+                    return ""
+                }
+            }).join('')
+
+            if (sessionHTML.length > 0) {
+                return `<div class="ipjuul-link-behavior ipjuul-speaker-box ${user.id === active ? 'active' : ''}" data-id="${user.id}" onclick="showSpeaker(this)"   >
+                    <div class="ipjuul-main-image-container">
+                        <img class="ipjuul-main-image" src="${user.image}" />
+                    </div>
+                    <div class="ipjuul-speaker-text" >
+                        <h3 data-id="${user.id}">${user.name}</h3>
+                        <p>${user.title}</p>
+
+                        ${/*sessionHTML*/""}
+
+                        <p>${user.bio.slice(0, 64)}...</p>
+                        
+                    </div>
+                </div>`
+            } else {
+                return ""
+            }
+
+
+        }
+
+        let speaker_view = () => {
+
+            let sessions = getSessionsFromSpeaker(speaker.id)
+
+            return `
+                <span class="ipjuul-button ipjuul-link-behavior" onclick="showSlider()">Back to All</span>
+                <div class="ipjuul-main-image-small-container">
+                    <img class="ipjuul-main-image" src = "${speaker.image}" />
+                </div>
+                <div class="ipjuul-panel">
+                    <h1>${speaker.name}</h1>
+                    <h5>${speaker.title}</h5>
+                    <p>${speaker.bio}</p>
+                </div>
+                ${/*<div class="ipjuul-panel">
+                    <h3>Appearances</h3>
+                    ${sessions.map((s, i) => `
+                        <div class="ipjuul-link-behavior" onclick="showSession(this)" data-id="${s.id}">
+                            <h5>${s.name}: ${s.print_day_time}</h5>
+                        </div>    
+                        `).join("")}
+                </div>*/""}
+            `
+        }
+
+        let session_view = () => {
+
+            let speakers = getSpeakersFromSession(session.id)
+
+            return `
+                <span class="ipjuul-button ipjuul-link-behavior" onclick="showSlider()">Back to All</span>
+                <div class="ipjuul-panel">
+                    <h1>${session.name}</h1>
+                    <h3>${session.print_day_time}</h3>
+                    <p>${session.description}</p>
+                </div>
+                <div class="ipjuul-panel">
+                    <h3>Speakers</h3>
+                    ${speakers.map((s, i) => `
+                        <div class="ipjuul-link-behavior" onclick="showSpeaker(this)" data-id="${s.id}">
+                            <h5>${s.name} (${s.title})</h5>
+                        </div>    
+                        `).join("")}
+                </div>
+`
+        }
+
+        const getSpeaker = (id) => {
+            return speakers.filter((a) => id === a.id)[0]
+        }
+
+        const getSession = (id) => {
+            return sessions.filter((a) => id === a.id)[0]
+        }
+
+        const getSessionsFromSpeaker = (speaker_id) => {
+            return speakerSessions.filter((a) => a.speaker_id === speaker_id).map((a) => getSession(a.session_id))
+        }
+
+        const getSpeakersFromSession = (session_id) => {
+            return speakerSessions.filter((a) => a.session_id === session_id).map((a) => getSpeaker(a.speaker_id))
+        }
+
+        const changeDays = (e) => {
+            let days = Number.parseInt(e.getAttribute('data-days'))
+            active_days = days
+
+            let sliderElement = document.getElementById('ipjuul-speaker-row')
+            if (sliderElement) { sliderElement.classList.add('fadeout'); }
+
+            setTimeout(() => {
+                render();
+            }, 500)
+
+
+        }
+
+        const changeScreen = () => {
+            viewerElement.classList.add('fade-animate')
+
+            setTimeout(() => {
+                viewerElement.classList.remove('fade-animate');
+                render();
+            }, 500)
+        }
+
+        const showSlider = (e) => {
+            view = LIST
+
+
+            changeScreen()
+        }
+
+        const showSpeaker = (e) => {
+            let id = Number.parseInt(e.getAttribute('data-id'))
+            speaker = getSpeaker(id)
+            view = SPEAKER
+
+            changeScreen()
+        }
+
+        const showSession = (e) => {
+            let id = Number.parseInt(e.getAttribute('data-id'))
+            session = getSession(id)
+            view = SESSION
+
+            changeScreen()
+        }
+
+        const render = () => {
+            viewerElement.innerHTML = ""
+
+            switch (view) {
+                case LIST:
+                    let children = ""
+
+                    speakers.map((user) => {
+                        let sessions = getSessionsFromSpeaker(user.id)
+
+                        children += thumb_template(user, sessions)
+
+                    })
+
+                    viewerElement.innerHTML = list_view(children)
+
+
+                    setTimeout(() => {
+                        sliderElement = document.getElementById('ipjuul-speaker-row')
+                        if (sliderElement) { sliderElement.classList.remove('fadeout'); }
+                    }, 500)
+
+                    break;
+                case SPEAKER:
+
+                    viewerElement.innerHTML = speaker_view()
+
+                    break;
+
+                case SESSION:
+
+                    viewerElement.innerHTML = session_view()
+
+                    break;
+            }
+
+        }
+
+        render();
+
+    </script>
+
+
+</body>
+
+</html>
